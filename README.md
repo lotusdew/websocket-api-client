@@ -275,7 +275,7 @@ Once subscribed, the server sends periodic updates for the subscribed tokens.
 
 ---
 
-### 5. Few more Order placement even examples
+### 5. Few more Order placement event examples
 
 - **Description**: Order palcement payload for placing orders.
 - **Request**
