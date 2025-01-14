@@ -73,7 +73,7 @@ All messages exchanged between the client and server follow a JSON structure.
     "topic": "api:<api_key>",
     "event": "subscribe",
     "payload": {
-      "list": ["<token_number_1>", "<token_number_2>", ...]
+      "list": ["<token_number_1>", "<token_number_2>", "<token_number_n>"]
     },
     "ref": ""
   }
@@ -84,11 +84,20 @@ All messages exchanged between the client and server follow a JSON structure.
     "event": "ltp",
     "payload": {
       "<token_number_1>": {
-        "ltp": <latest_price>,
-        "ltq": <latest_quantity>,
-        "ltt": <last_traded_time>,
+        "ltp": "<latest_price>",
+        "ltq": "<latest_quantity>",
+        "ltt": "<last_traded_time>",
       },
-      ...
+      "<token_number_2>": {
+        "ltp": "<latest_price>",
+        "ltq": "<latest_quantity>",
+        "ltt": "<last_traded_time>",
+      },
+      "<token_number_2>": {
+        "ltp": "<latest_price>",
+        "ltq": "<latest_quantity>",
+        "ltt": "<last_traded_time>",
+      }
     },
     "ref": null,
     "topic": "api:<api_key>"
@@ -105,7 +114,7 @@ All messages exchanged between the client and server follow a JSON structure.
     "topic": "api:<api_key>",
     "event": "unsubscribe",
     "payload": {
-      "list": ["<token_number_1>", "<token_number_2>", ...]
+      "list": ["<token_number_1>", "<token_number_2>", "<token_number_n>"]
     },
     "ref": ""
   }
@@ -114,7 +123,7 @@ All messages exchanged between the client and server follow a JSON structure.
   ```json
   {
     "event": "unsubscribe",
-    "payload":{"tokens" : ["25","22","2442","3812","35006","42685","41289"]},
+    "payload":{"tokens" : ["22","2442"]},
     "ref": null,
     "topic": "api:<api_key>"
   }
@@ -139,8 +148,7 @@ Once subscribed, the server sends periodic updates for the subscribed tokens.
       "ltp": 24295,
       "ltq": 499,
       "ltt": "2025-01-09T12:54:39Z"
-    },
-    ...
+    }
   },
   "ref": null,
   "topic": "api:<api_key>"
@@ -209,3 +217,40 @@ The server may return error responses for invalid API usage or authentication is
 - **Authenticate First**: Always send the `phx_join` event with a valid `access_token` before other events.
 - **Handle Errors Gracefully**: Parse error responses and take corrective actions (e.g., refresh the access token if expired).
 - **Reconnect on Failures**: Reconnect to the WebSocket server if the connection drops.
+
+---
+
+## Setting Up a Virtual Environment and Installing Requirements Using pip
+- Follow these steps to create a virtual environment, install required dependencies, and write the commands in a single file.
+
+### Step 1: Create a virtual environment
+```bash
+python3 -m venv venv
+```
+
+### Step 2: Activate the virtual environment
+### On macOS/Linux
+```bash
+source venv/bin/activate
+```
+### On Windows
+```bash
+.\venv\Scripts\activate
+```
+
+### Step 3: Install the requirements using pip
+```bash
+pip install -r requirements.txt
+```
+
+### Step 4: Deactivate the virtual environment when done
+```bash
+deactivate
+```
+
+## Create an .env file similar to the given example with your API Key
+```bash
+WEBSOCKET_SERVER_URL=wss://api.airalgo.com/socket/websocket
+TOKEN_SERVER_URL=https://api.airalgo.com
+API_KEY=<Paste your API Key here>
+```
