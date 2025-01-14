@@ -1,25 +1,30 @@
 # WebSocket API Documentation
 
 ## Overview
+
 This WebSocket API allows clients to connect and interact with the server by exchanging messages. It supports subscribing to updates and receiving real-time data.
 
 ---
 
 ## WebSocket Endpoint
+
 - **URL**: `wss://api.airalgo.com/socket/websocket`
 
 ---
 
 ## Authentication
+
 - **Access Token**: Required in the `phx_join` payload to authenticate the client.
 - **API Key**: Included in the topic, must be valid.
 
 ---
 
 ## Message Format
+
 All messages exchanged between the client and server follow a JSON structure.
 
 ### General Structure
+
 ```json
 {
   "topic": "string",
@@ -28,6 +33,7 @@ All messages exchanged between the client and server follow a JSON structure.
   "ref": "string"
 }
 ```
+
 - **topic**: Identifies the specific API or token (e.g., `api:<api_key>`).
 - **event**: Defines the action (e.g., `phx_join`, `subscribe`).
 - **payload**: Contains the necessary data for the action.
@@ -38,6 +44,7 @@ All messages exchanged between the client and server follow a JSON structure.
 ## Supported Events
 
 ### 1. Join Event
+
 - **Description**: Authenticate the client and join a topic.
 - **Request**:
   ```json
@@ -66,6 +73,7 @@ All messages exchanged between the client and server follow a JSON structure.
 ---
 
 ### 2. Subscribe Event
+
 - **Description**: Subscribe to updates for specific tokens.
 - **Request**:
   ```json
@@ -86,17 +94,17 @@ All messages exchanged between the client and server follow a JSON structure.
       "<token_number_1>": {
         "ltp": "<latest_price>",
         "ltq": "<latest_quantity>",
-        "ltt": "<last_traded_time>",
+        "ltt": "<last_traded_time>"
       },
       "<token_number_2>": {
         "ltp": "<latest_price>",
         "ltq": "<latest_quantity>",
-        "ltt": "<last_traded_time>",
+        "ltt": "<last_traded_time>"
       },
       "<token_number_2>": {
         "ltp": "<latest_price>",
         "ltq": "<latest_quantity>",
-        "ltt": "<last_traded_time>",
+        "ltt": "<last_traded_time>"
       }
     },
     "ref": null,
@@ -107,6 +115,7 @@ All messages exchanged between the client and server follow a JSON structure.
 ---
 
 ### 3. Unsubscribe Event
+
 - **Description**: Unsubscribe to updates for specific tokens.
 - **Request**:
   ```json
@@ -123,7 +132,7 @@ All messages exchanged between the client and server follow a JSON structure.
   ```json
   {
     "event": "unsubscribe",
-    "payload":{"tokens" : ["22","2442"]},
+    "payload": { "tokens": ["22", "2442"] },
     "ref": null,
     "topic": "api:<api_key>"
   }
@@ -132,9 +141,11 @@ All messages exchanged between the client and server follow a JSON structure.
 ---
 
 ## Real-Time Updates
+
 Once subscribed, the server sends periodic updates for the subscribed tokens.
 
 ### Update Example
+
 ```json
 {
   "event": "ltp",
@@ -160,7 +171,7 @@ Once subscribed, the server sends periodic updates for the subscribed tokens.
 ### 4. Order placement Event
 
 - **Description**: Order palcement payload for placing orders.
-- **Request**:
+- **Request**
 
   ```json
   {
@@ -180,7 +191,7 @@ Once subscribed, the server sends periodic updates for the subscribed tokens.
   }
   ```
 
-- **Response 1**:
+- **Response 1: Order Entry Confirmation**
 
   ```json
   {
@@ -221,7 +232,7 @@ Once subscribed, the server sends periodic updates for the subscribed tokens.
   }
   ```
 
-- **Response 2**:
+- **Response 2 : Order Execution Success**
 
   ```json
   {
@@ -264,12 +275,76 @@ Once subscribed, the server sends periodic updates for the subscribed tokens.
 
 ---
 
+### 5. Few more Order placement even examples
 
+- **Description**: Order palcement payload for placing orders.
+- **Request**
+
+  ```json
+  {
+    "topic": "api:<api_key>",
+    "event": "order",
+    "payload": {
+      "token_number": "35013",
+      "market_limit_sl": "market",
+      "price": 0,
+      "order_type": "B",
+      "trigger_price": 0,
+      "validity": "Day",
+      "quantity": 25,
+      "ltp": 0
+    },
+    "ref": ""
+  }
+  ```
+
+- **Response : Order Rejected**
+
+  ```json
+  {
+    "event": "order_response",
+    "payload": {
+      "book_type": "1",
+      "buy_sell": "1",
+      "client_id": "1234567890",
+      "disclosed_volume": 25,
+      "entry_modify_cancel": "0",
+      "error": null,
+      "executed_price": 0,
+      "expiry_date": "1425133800",
+      "good_till_date": "0000000000",
+      "instrument": "FUTIDX",
+      "last_modified": "0000000000",
+      "market_limit_sl": "market",
+      "message": "Order has been Rejected",
+      "net_charges": 6602427.364333333,
+      "option_type": "XX",
+      "order_flag": null,
+      "order_number": 1000000000085530.0,
+      "pnl": 0,
+      "price": 0.0,
+      "required_margin": 6602427.333333333,
+      "status": "Rejected",
+      "strike_price": "0",
+      "symbol": "NIFTY",
+      "timestamp": "18:58:5,14-1-2025",
+      "token_number": "35013",
+      "transaction_id": 13,
+      "trigger_price": 0.0,
+      "user_id": "46950",
+      "volume": 25
+    },
+    "ref": null,
+    "topic": "api:<api_key>"
+  }
+  ```
 
 ## Error Handling
+
 The server may return error responses for invalid API usage or authentication issues. Below are the known errors:
 
 ### 1. Invalid API Key
+
 - **Condition**: Sent when the `api:<api_key>` is invalid.
 - **Error Response**:
   ```json
@@ -287,6 +362,7 @@ The server may return error responses for invalid API usage or authentication is
   ```
 
 ### 2. Invalid or Expired Access Token
+
 - **Condition**: Sent when the `access_token` is invalid or expired.
 - **Error Response**:
   ```json
@@ -304,6 +380,7 @@ The server may return error responses for invalid API usage or authentication is
   ```
 
 ### 3. Unmatched Topic
+
 - **Condition**: Sent when any event other than `phx_join` is sent before authenticating via `phx_join`.
 - **Error Response**:
   ```json
@@ -323,6 +400,7 @@ The server may return error responses for invalid API usage or authentication is
 ---
 
 ## Best Practices
+
 - **Authenticate First**: Always send the `phx_join` event with a valid `access_token` before other events.
 - **Handle Errors Gracefully**: Parse error responses and take corrective actions (e.g., refresh the access token if expired).
 - **Reconnect on Failures**: Reconnect to the WebSocket server if the connection drops.
@@ -330,34 +408,43 @@ The server may return error responses for invalid API usage or authentication is
 ---
 
 ## Setting Up a Virtual Environment and Installing Requirements Using pip
+
 - Follow these steps to create a virtual environment, install required dependencies, and write the commands in a single file.
 
 ### Step 1: Create a virtual environment
+
 ```bash
 python3 -m venv venv
 ```
 
 ### Step 2: Activate the virtual environment
+
 - On macOS/Linux
+
 ```bash
 source venv/bin/activate
 ```
+
 - On Windows
+
 ```bash
 .\venv\Scripts\activate
 ```
 
 ### Step 3: Install the requirements using pip
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### Step 4: Deactivate the virtual environment when done
+
 ```bash
 deactivate
 ```
 
 ## Create an .env file similar to the given example with your API Key
+
 ```bash
 WEBSOCKET_SERVER_URL=wss://api.airalgo.com/socket/websocket
 TOKEN_SERVER_URL=https://api.airalgo.com
