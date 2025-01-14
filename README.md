@@ -157,6 +157,115 @@ Once subscribed, the server sends periodic updates for the subscribed tokens.
 
 ---
 
+### 4. Order placement Event
+
+- **Description**: Order palcement payload for placing orders.
+- **Request**:
+
+  ```json
+  {
+    "topic": "api:<api_key>",
+    "event": "order",
+    "payload": {
+      "token_number": "2885",
+      "market_limit_sl": "market",
+      "price": 0,
+      "order_type": "B",
+      "trigger_price": 0,
+      "validity": "Day",
+      "quantity": 20,
+      "ltp": 0
+    },
+    "ref": ""
+  }
+  ```
+
+- **Response 1**:
+
+  ```json
+  {
+    "event": "order_response",
+    "payload": {
+      "book_type": "1",
+      "buy_sell": "1",
+      "client_id": "1234567890",
+      "disclosed_volume": 20,
+      "entry_modify_cancel": "0",
+      "error": null,
+      "executed_price": 0,
+      "expiry_date": "0",
+      "good_till_date": "0000000000",
+      "instrument": "EQUITY",
+      "last_modified": 1421348186,
+      "market_limit_sl": "market",
+      "message": "Order Entry Confirm",
+      "net_charges": 0.025,
+      "option_type": "EQ",
+      "order_flag": null,
+      "order_number": 1300000000111170.0,
+      "pnl": 0,
+      "price": 0.0,
+      "required_margin": 0,
+      "status": "Pending",
+      "strike_price": "0",
+      "symbol": "RELIANCE",
+      "timestamp": "18:56:26,14-1-2025",
+      "token_number": "2885",
+      "transaction_id": 11,
+      "trigger_price": 0.0,
+      "user_id": "47241",
+      "volume": 20
+    },
+    "ref": null,
+    "topic": "api:<api_key>"
+  }
+  ```
+
+- **Response 2**:
+
+  ```json
+  {
+    "event": "order_response",
+    "payload": {
+      "book_type": "1",
+      "buy_sell": "1",
+      "client_id": "1234567890",
+      "disclosed_volume": 20,
+      "entry_modify_cancel": "0",
+      "error": null,
+      "executed_price": 120275.0,
+      "expiry_date": "0",
+      "good_till_date": "0000000000",
+      "instrument": "EQUITY",
+      "last_modified": 1421348186,
+      "market_limit_sl": "market",
+      "message": "Your Order has been executed successfully",
+      "net_charges": 0.025,
+      "option_type": "EQ",
+      "order_flag": null,
+      "order_number": 1300000000111170.0,
+      "pnl": 0,
+      "price": 0.0,
+      "required_margin": 0,
+      "status": "Executed",
+      "strike_price": "0",
+      "symbol": "RELIANCE",
+      "timestamp": "18:56:26,14-1-2025",
+      "token_number": "2885",
+      "transaction_id": 11,
+      "trigger_price": 0.0,
+      "user_id": "47241",
+      "volume": 20
+    },
+    "ref": null,
+    "topic": "api:<api_key>"
+  }
+  ```
+
+---
+
+
+
 ## Error Handling
 The server may return error responses for invalid API usage or authentication issues. Below are the known errors:
 
