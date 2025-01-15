@@ -191,6 +191,19 @@ Once subscribed, the server sends periodic updates for the subscribed tokens.
   }
   ```
 
+- **Description of Request Parameters**
+
+  | Parameter | Data Type | Description | Example |
+  |--------|--------|--------|--------|
+  | token_number | String | Token Number from csv file | "2885" |
+  | market_limit_sl | String | Market -> "market", Limit -> "limit", Stop Loss -> "sl", Stop Loss Market ->"slm" | "limit" |
+  | price | Integer | For limit and Stop Loss order price should be non-zero, and in Paisa | 234535 |
+  | order_type | String | Order type "B" for Buy and "S" for Sell | "B" |
+  | trigger_price | Integer | For Stop Loss order trigger_price should be non-zero and in Paisa | 234530 |
+  | validity | String | For now only validity is "Day" | "Day" |
+  | quantity | Integer | Quantity of the Security that you want to trade | 20 |
+  | ltp | Integer | For limit and stop loss order ltp should be non-zero and in Paisa | 234600 |
+
 - **Response 1: Order Entry Confirmation**
 
   ```json
