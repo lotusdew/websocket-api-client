@@ -6,6 +6,12 @@ This WebSocket API allows clients to connect and interact with the server by exc
 
 ---
 
+## Access Token Endpoint
+
+- **URL**: `https://api.airalgo.com/api/token`
+
+---
+
 ## WebSocket Endpoint
 
 - **URL**: `wss://api.airalgo.com/socket/websocket`
